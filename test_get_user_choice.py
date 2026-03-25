@@ -1,5 +1,5 @@
 from unittest import TestCase
-from simple_game import get_user_choice
+from game import get_user_choice
 from unittest.mock import patch
 import io
 

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from simple_game import make_board
+from game import make_board
 from unittest.mock import patch
 
 class Test(TestCase):

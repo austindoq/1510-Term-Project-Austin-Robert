@@ -1,5 +1,5 @@
 from unittest import TestCase
-from simple_game import describe_current_location
+from game import describe_current_location
 from unittest.mock import patch
 import io
 

@@ -1,1 +1,308 @@
-print("Hey")
+import random
+
+
+def make_board(rows, columns):
+    """
+    Create the grid containing the game's accessible points and environment information.
+
+    :param rows: a non-zero integer
+    :param columns: a non-zero integer
+    :precondition: rows must be a non-zero integer
+    :precondition: columns must be a non-zero integer
+    :return: a dictionary containing all
+    """
+    if str(rows).isalpha():
+        print(f"Row value must be a number, '{rows}' is not a number.")
+        raise ValueError
+    elif int(rows) < 1:
+        print(f"Row value must be greater than 0, '{rows}' is not greater than 0.")
+        raise ValueError
+
+    if str(columns).isalpha():
+        print(f"Column value must be a number, '{columns}' is not a number.")
+        raise ValueError
+    elif int(columns) < 1:
+        print(f"Column value must be greater than 0, '{columns}' is not greater than 0.")
+        raise ValueError
+
+    board = {}
+
+    rows = [row for row in range(rows)]
+    columns = [column for column in range(columns)]
+
+    environment_descriptions = [
+        "\033[32mYou are in an open field filled with long grass and small boulders.\033[0m",
+        "\033[32mYou enter a sparsely wooded area, the trees are thin and bushes surround the trail.\033[0m",
+        "\033[32mYou are in a arid plane, little vegetation grows here and the wind blows strong.\033[0m",
+        "\033[32mYou are under a thick forest canopy, light struggles to reach the forest floor.\033[0m"
+    ]
+
+    for row in rows:
+        for column in columns:
+            board[(row, column)] = environment_descriptions[random.randint(0, 3)]
+
+    return board
+
+
+def make_character():
+    """
+    Initialize the character stats and info in a dictionary.
+
+    :postcondition: create a dictionary containing character information
+    :return: a dictionary containing character stats and information
+    >>> make_character()
+    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5, 'Name': 'Doris'}
+    """
+    char_info = {
+        "X-coordinate": 0,
+        "Y-coordinate": 0,
+        "Current HP": 5,
+        "Name": "Doris"
+    }
+
+    return char_info
+
+
+def describe_current_location(board, character):
+    """
+    Print the information associated with the character's current location.
+
+    :param board: a dictionary containing the game board information
+    :param character: a dictionary containing the character information
+    :precondition: board must be a dictionary containing the environment info about each valid game board coordinate
+    :precondition: character must be a dictionary containing the character's current X/Y coordinate
+    :postcondition: print the environment info about character's current location
+    """
+    current_character_location = (character["X-coordinate"], character["Y-coordinate"])
+    try:
+        for location_key in  board:
+            if current_character_location == location_key:
+                print(board[location_key])
+    except KeyError:
+        print("Somehow, someway, you've accessed an out of bounds location. Trace your steps back to safety.")
+
+
+def get_user_choice():
+    """
+    Take and process user's choice of direction they wish to travel.
+
+    :postcondition: process user's input against list of acceptable direction inputs
+    :return: user's direction choice as an integer
+    """
+    user_move = ""
+    valid_selection = {1,2,3,4}
+
+    while not user_move:
+        user_move =  input("Please choose which direction you wish to move:\n(1)North\n(2)East\n(3)South\n(4)West\n"
+                           "Move: ")
+        try:
+            user_move = int(user_move)
+        except ValueError:
+            print(f"You must input 1, 2, 3, or 4 to move in the direction associated with the number. '{user_move}' is "
+                  f"not one of these options.")
+            user_move = ""
+        else:
+            if int(user_move) in valid_selection:
+                break
+            else:
+                print(f"You must choose a number from the listed options, you chose '{user_move}' which is not "
+                      f"included in the list of options. Please choose again.")
+                user_move = ""
+
+    return user_move
+
+
+def validate_move(board, character, direction):
+    """
+    Validate the user's desired direction to move.
+
+    :param board: a dictionary containing the coordinates of the game
+    :param character: a dictionary containing character information
+    :param direction: an integer associated with a desired direction of movement
+    :precondition: board must be a dictionary containing all valid game coordinates
+    :precondition: character must be a dictionary containing the character's current X/Y coordinate
+    :precondition: direction must be an integer in the range [1,4]
+    :postcondition: decide if user's desired direction of movement is valid
+    :return: True if desired_coord is a valid game board coordinate otherwise False
+    >>> doc_board = make_board(rows=5,columns=5)
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 0,"Current HP": 5,"Name": "Doris"}
+    >>> doc_direction = 2
+    >>> validate_move(doc_board, doc_character, doc_direction)
+    True
+    >>> doc_board = make_board(rows=5,columns=5)
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 0,"Current HP": 5,"Name": "Doris"}
+    >>> doc_direction = 1
+    >>> validate_move(doc_board, doc_character, doc_direction)
+    False
+    """
+    north = (character["X-coordinate"],character["Y-coordinate"] - 1)
+    east = (character["X-coordinate"] + 1,character["Y-coordinate"])
+    south = (character["X-coordinate"],character["Y-coordinate"] + 1)
+    west = (character["X-coordinate"] -1,character["Y-coordinate"])
+
+    if direction == 1:
+        desired_coord = north
+    elif direction == 2:
+        desired_coord = east
+    elif direction == 3:
+        desired_coord = south
+    else:
+        desired_coord = west
+
+    for location in board.keys():
+        if location == desired_coord:
+            return True
+        else:
+            continue
+    return False
+
+
+def move_character(character, direction):
+    """
+    Apply the desired direction of movement to the character's current position.
+
+    :param character: a dictionary containing the character information
+    :param direction: an integer associated with a desired direction of movement
+    :precondition: character must be a dictionary containing the character's current X/Y coordinate
+    :precondition: direction must be an integer in the range [1,4]
+    :postcondition: update the character's x or y coordinates to correspond with the user's choice of direction
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 0,"Current HP": 5,"Name": "Doris"}
+    >>> doc_direction = 2
+    >>> move_character(doc_character, doc_direction)
+    >>> doc_character["X-coordinate"]
+    1
+    >>> doc_character["Y-coordinate"]
+    0
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 0,"Current HP": 5,"Name": "Doris"}
+    >>> doc_direction = 3
+    >>> move_character(doc_character, doc_direction)
+    >>> doc_character["X-coordinate"]
+    0
+    >>> doc_character["Y-coordinate"]
+    1
+    """
+    if direction == 1:
+        character["Y-coordinate"] = character["Y-coordinate"] - 1
+    elif direction == 2:
+        character["X-coordinate"] = character["X-coordinate"] + 1
+    elif direction == 3:
+        character["Y-coordinate"] = character["Y-coordinate"] + 1
+    else:
+        character["X-coordinate"] = character["X-coordinate"] - 1
+
+
+def check_for_foes():
+    """
+    Check for a %25 chance of an enemy encounter.
+
+    :postcondition: randomly select a number in the range [1,4] inclusive
+    :return: True if number rolled is 4 otherwise False
+    """
+    foe_check = random.randint(1,4)
+    if foe_check == 4:
+        return True
+    else:
+        return False
+
+
+def guessing_game(character):
+    """
+    Initiate an integer guessing game with an enemy.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing the character's current HP
+    :postcondition: user will engage in a riveting integer guessing game
+    """
+    acceptable_guesses = [1,2,3,4,5]
+    answer = random.randint(1, 5)
+
+    print("\033[1;93mLOOK! An enemy has decided to challenge you! You must now use your prediction prowess to save "
+          "yourself!\033[0m")
+    print("\033[1;91mEnemy:\033[0m \033[31m'Muahaha, looks like you've sauntered right into my trap! The only way to "
+          "escape now is to do the impossible! You must guess an integer from 1 - 5...'\033[0m")
+
+    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (4, 4):
+        guess = input("Pick an integer from 1 - 5: ")
+
+        try:
+            guess = int(guess)
+        except ValueError:
+            print(f"You must enter a number! '{guess}' is not an integer. Try again.")
+        else:
+            if guess not in acceptable_guesses or guess != answer:
+                character["Current HP"] = character["Current HP"] - 1
+                print("\033[1;91mEnemy:\033[0m \033[31mJust as I expected, WRONG!\033[0m")
+                print("\033[1;94mPlayer:\033[0m \033[34m 'ACK!' \033[0m \033[31m(-1hp)\033[0m")
+            else:
+                print("\033[1;95m*Enemy explodes in defeat!*\033[0m")
+                break
+
+
+def check_if_goal_attained(character):
+    """
+    Decide if game goal has been achieved.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing character's current x and y coordinates
+    :postcondition: correctly decide if the character's current position is in (4, 4)
+    :return: True if character is currently in (4,4) otherwise False
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 1,"Current HP": 5,"Name": "Doris"}
+    >>> check_if_goal_attained(doc_character)
+    False
+    >>> doc_character = {"X-coordinate": 4,"Y-coordinate": 4,"Current HP": 5,"Name": "Doris"}
+    >>> check_if_goal_attained(doc_character)
+    True
+    """
+    if (character["X-coordinate"], character["Y-coordinate"]) == (4, 4):
+        return True
+    else:
+        return False
+
+
+def game():
+    """
+    Initialize and start playing the game.
+    """
+    rows = 5
+    columns = 5
+    board = make_board(rows, columns)
+    character = make_character()
+    achieved_goal = False
+
+    while not achieved_goal and character["Current HP"] > 0:
+        direction = get_user_choice()
+        valid_move = validate_move(board, character, direction)
+        if valid_move:
+            move_character(character, direction)
+            describe_current_location(board, character)
+            there_is_a_challenger = check_for_foes()
+            if there_is_a_challenger:
+                guessing_game(character)
+            achieved_goal = check_if_goal_attained(character)
+        else:
+            print("Alas, you cannot go that way! Try again.")
+
+    if achieved_goal:
+        print("\033[1;93mCongratulations adventurer! You have reached the legendary plot of (4, 4). It is just as the "
+              "legends foretold...\033[0m", end="")
+
+        print(r"""
+                                    ___________.__             ___________           .___
+                                    \__    ___/|  |__   ____   \_   _____/ ____    __| _/
+                                      |    |   |  |  \_/ __ \   |    __)_ /    \  / __ | 
+                                      |    |   |   Y  \  ___/   |        \   |  \/ /_/ | 
+                                      |____|   |___|  /\___  > /_______  /___|  /\____ | 
+                                                    \/     \/          \/     \/      \/ """)
+    else:
+        print("\033[31mGame over! You ran out of HP.\033[0m", end="")
+
+
+def main():
+    """
+    Drive the program.
+    """
+    game()
+
+
+if __name__ == "__main__":
+    main()

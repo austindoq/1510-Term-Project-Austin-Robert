@@ -1,6 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
-from simple_game import check_for_foes
+from game import check_for_foes
 
 class Test(TestCase):
     @patch('random.randint', return_value=1)

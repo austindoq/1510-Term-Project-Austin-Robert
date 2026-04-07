@@ -7,7 +7,7 @@ class Test(TestCase):
             "X-coordinate": 0,
             "Y-coordinate": 0,
             "Current HP": 5,
-            "Name": "Doris"
+            "Name": "Doris",
         }
         actual = make_character()
         self.assertEqual(expected, actual)

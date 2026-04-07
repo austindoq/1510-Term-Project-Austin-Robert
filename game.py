@@ -1,4 +1,5 @@
 import random
+import time
 
 
 def make_board(rows, columns):
@@ -44,7 +45,7 @@ def make_board(rows, columns):
     return board
 
 
-def make_character():
+def make_character() -> dict:
     """
     Initialize the character stats and info in a dictionary.
 
@@ -53,16 +54,17 @@ def make_character():
     >>> make_character()
     {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5, 'Name': 'Doris'}
     """
+    name = input("\n\033[1;94mPlayer:\033[0m \033[34mWhat was my name again?\nName: \033[0m")
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
         "Current HP": 5,
-        "Name": "Doris"
+        "Name": name
     }
 
     return char_info
 
-
+`
 def describe_current_location(board, character):
     """
     Print the information associated with the character's current location.
@@ -258,14 +260,36 @@ def check_if_goal_attained(character):
     else:
         return False
 
+def begin_narration(story_chapter: int) -> None:
+    if story_chapter == 0:
+        skip = False
+        while not skip:
+            acceptable = ["y","n"]
+            skip_choice = input("Skip intro?(Y/N)\n").lower()
+            if skip_choice not in acceptable:
+                continue
+            elif skip_choice == "y":
+                skip = True
+            else:
+                with open("./storyline/start.txt") as file_object:
+                    print("")
+                    for line in file_object.readlines():
+                        print(f"\033[1;3;32m{line}\033[0m")
+                        time.sleep(2)
+                skip = True
+
+
+
+
 
 def game():
     """
     Initialize and start playing the game.
     """
-    rows = 5
-    columns = 5
+    rows = 15
+    columns = 15
     board = make_board(rows, columns)
+    begin_narration(0)
     character = make_character()
     achieved_goal = False
 

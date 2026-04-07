@@ -59,12 +59,14 @@ def make_character() -> dict:
         "X-coordinate": 0,
         "Y-coordinate": 0,
         "Current HP": 5,
-        "Name": name
+        "Name": name,
+        "Rank Title": "Soldado",
+        "Rank": 1,
+        "Experience": 0
     }
 
     return char_info
 
-`
 def describe_current_location(board, character):
     """
     Print the information associated with the character's current location.
@@ -261,6 +263,13 @@ def check_if_goal_attained(character):
         return False
 
 def begin_narration(story_chapter: int) -> None:
+    """
+    Begin the narration of storyline in the console.
+
+    :param story_chapter: an integer associated with a text file containing story storyline
+    :precondition: story_chapter must be an integer associated with a text file containing the storyline
+    :postcondition: a specific chapter's storyline is printed to the console
+    """
     if story_chapter == 0:
         skip = False
         while not skip:

@@ -208,6 +208,14 @@ def check_for_foes():
     else:
         return False
 
+def print_stats(character):
+    health = character["Current HP"]
+    name = character["Name"]
+    rank_title = character["Rank Title"]
+    rank = character["Rank"]
+    print(f"\033[1;31m[IN BATTLE]\033[0m | \033[1;94m{name} the level {rank} {rank_title}\033[0m | \033[1;31mHP: "
+          f"{health}\033[0m")
+
 
 def guessing_game(character):
     """
@@ -225,7 +233,8 @@ def guessing_game(character):
     print("\033[1;91mEnemy:\033[0m \033[31m'Muahaha, looks like you've sauntered right into my trap! The only way to "
           "escape now is to do the impossible! You must guess an integer from 1 - 5...'\033[0m")
 
-    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (4, 4):
+    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
+        print_stats(character)
         guess = input("Pick an integer from 1 - 5: ")
 
         try:
@@ -286,9 +295,6 @@ def begin_narration(story_chapter: int) -> None:
                         print(f"\033[1;3;32m{line}\033[0m")
                         time.sleep(2)
                 skip = True
-
-
-
 
 
 def game():

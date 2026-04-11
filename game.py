@@ -1,5 +1,5 @@
-import random
-import time
+import random, time
+from constants import BOLD, UNDERLINE, BG, COLOUR_END
 
 
 def make_board(rows, columns):
@@ -209,11 +209,19 @@ def check_for_foes():
         return False
 
 def print_stats(character):
+    """
+    Print the character's stats to the console.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing character information
+    :postcondition: the character's
+    :return:
+    """
     health = character["Current HP"]
     name = character["Name"]
     rank_title = character["Rank Title"]
     rank = character["Rank"]
-    print(f"\033[1;31m[IN BATTLE]\033[0m | \033[1;94m{name} the level {rank} {rank_title}\033[0m | \033[1;31mHP: "
+    print(f"\033[1;31m[IN BATTLE]\033[0m | \033[1;94m{name} the level {rank} {rank_title}\033[0m | \033[1;32mHP: "
           f"{health}\033[0m")
 
 

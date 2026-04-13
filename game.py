@@ -306,12 +306,13 @@ def begin_narration(story_chapter: int) -> None:
                 skip = True
 
 
+
 def game():
     """
     Initialize and start playing the game.
     """
-    rows = 15
-    columns = 15
+    rows = 5
+    columns = 5
     board = make_board(rows, columns)
     begin_narration(0)
 
@@ -332,10 +333,7 @@ def game():
             print("Alas, you cannot go that way! Try again.")
 
     if achieved_goal:
-        print(
-              f"{BOLD["YELLOW"]}Congratulations adventurer! You have reached the legendary plot of (4, 4). It is just as"
-              f" the legends foretold...{COLOUR_END}", end="")
-
+        begin_narration(2)
         print(f"{ascii_library["THE_END"]}")
     else:
         print(f"{BOLD["RED"]}Game over! You ran out of HP.{COLOUR_END}", end="")

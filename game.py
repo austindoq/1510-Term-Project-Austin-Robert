@@ -1,5 +1,6 @@
 import random, time
-from constants import BOLD, UNDERLINE, BG, COLOUR_END
+from constants import BOLD, UNDERLINE, BG, COLOUR_END, STORY
+from ascii_art import ascii_library
 
 
 def make_board(rows, columns):
@@ -32,10 +33,10 @@ def make_board(rows, columns):
     columns = [column for column in range(columns)]
 
     environment_descriptions = [
-        "\033[32mYou are in an open field filled with long grass and small boulders.\033[0m",
-        "\033[32mYou enter a sparsely wooded area, the trees are thin and bushes surround the trail.\033[0m",
-        "\033[32mYou are in a arid plane, little vegetation grows here and the wind blows strong.\033[0m",
-        "\033[32mYou are under a thick forest canopy, light struggles to reach the forest floor.\033[0m"
+        f"{BOLD["GREEN"]}You are in an open field filled with long grass and small boulders.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You enter a sparsely wooded area, the trees are thin and bushes surround the trail.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You are in a arid plane, little vegetation grows here and the wind blows strong.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You are under a thick forest canopy, light struggles to reach the forest floor.{COLOUR_END}"
     ]
 
     for row in rows:
@@ -54,7 +55,7 @@ def make_character() -> dict:
     >>> make_character()
     {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5, 'Name': 'Doris'}
     """
-    name = input("\n\033[1;94mPlayer:\033[0m \033[34mWhat was my name again?\nName: \033[0m")
+    name = input(f"{BOLD["BLUE"]}Player: What was my name again?\nName: {COLOUR_END}")
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
@@ -221,8 +222,8 @@ def print_stats(character):
     name = character["Name"]
     rank_title = character["Rank Title"]
     rank = character["Rank"]
-    print(f"\033[1;31m[IN BATTLE]\033[0m | \033[1;94m{name} the level {rank} {rank_title}\033[0m | \033[1;32mHP: "
-          f"{health}\033[0m")
+    print(f"{BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]}{name} the level {rank} {rank_title}{COLOUR_END} |"
+          f" {BOLD["BLUE"]}HP:{health}{COLOUR_END}")
 
 
 def guessing_game(character):
@@ -230,16 +231,15 @@ def guessing_game(character):
     Initiate an integer guessing game with an enemy.
 
     :param character: a dictionary containing character information
-    :precondition: character must be a dictionary containing the character's current HP
+    :precondition: character must be a dictionary containing the character's current HP`
     :postcondition: user will engage in a riveting integer guessing game
     """
     acceptable_guesses = [1,2,3,4,5]
     answer = random.randint(1, 5)
 
-    print("\033[1;93mLOOK! An enemy has decided to challenge you! You must now use your prediction prowess to save "
-          "yourself!\033[0m")
-    print("\033[1;91mEnemy:\033[0m \033[31m'Muahaha, looks like you've sauntered right into my trap! The only way to "
-          "escape now is to do the impossible! You must guess an integer from 1 - 5...'\033[0m")
+    print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
+    print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
+          f"escape now is to do the impossible! You must guess an integer from 1 - 5...'{COLOUR_END}")
 
     while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
         print_stats(character)
@@ -252,10 +252,10 @@ def guessing_game(character):
         else:
             if guess not in acceptable_guesses or guess != answer:
                 character["Current HP"] = character["Current HP"] - 1
-                print("\033[1;91mEnemy:\033[0m \033[31mJust as I expected, WRONG!\033[0m")
-                print("\033[1;94mPlayer:\033[0m \033[34m 'ACK!' \033[0m \033[31m(-1hp)\033[0m")
+                print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}")
+                print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
             else:
-                print("\033[1;95m*Enemy explodes in defeat!*\033[0m")
+                print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
                 break
 
 
@@ -287,6 +287,7 @@ def begin_narration(story_chapter: int) -> None:
     :precondition: story_chapter must be an integer associated with a text file containing the storyline
     :postcondition: a specific chapter's storyline is printed to the console
     """
+    print(f"{BOLD["GREEN"]}{ascii_library["WELCOME"]}\n{COLOUR_END}")
     if story_chapter == 0:
         skip = False
         while not skip:
@@ -300,7 +301,7 @@ def begin_narration(story_chapter: int) -> None:
                 with open("./storyline/start.txt") as file_object:
                     print("")
                     for line in file_object.readlines():
-                        print(f"\033[1;3;32m{line}\033[0m")
+                        print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                         time.sleep(2)
                 skip = True
 
@@ -313,6 +314,7 @@ def game():
     columns = 15
     board = make_board(rows, columns)
     begin_narration(0)
+
     character = make_character()
     achieved_goal = False
 
@@ -330,18 +332,13 @@ def game():
             print("Alas, you cannot go that way! Try again.")
 
     if achieved_goal:
-        print("\033[1;93mCongratulations adventurer! You have reached the legendary plot of (4, 4). It is just as the "
-              "legends foretold...\033[0m", end="")
+        print(
+              f"{BOLD["YELLOW"]}Congratulations adventurer! You have reached the legendary plot of (4, 4). It is just as"
+              f" the legends foretold...{COLOUR_END}", end="")
 
-        print(r"""
-                                    ___________.__             ___________           .___
-                                    \__    ___/|  |__   ____   \_   _____/ ____    __| _/
-                                      |    |   |  |  \_/ __ \   |    __)_ /    \  / __ | 
-                                      |    |   |   Y  \  ___/   |        \   |  \/ /_/ | 
-                                      |____|   |___|  /\___  > /_______  /___|  /\____ | 
-                                                    \/     \/          \/     \/      \/ """)
+        print(f"{ascii_library["THE_END"]}")
     else:
-        print("\033[31mGame over! You ran out of HP.\033[0m", end="")
+        print(f"{BOLD["RED"]}Game over! You ran out of HP.{COLOUR_END}", end="")
 
 
 def main():

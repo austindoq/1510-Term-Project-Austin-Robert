@@ -28,3 +28,7 @@ UNDERLINE = {
     "CYAN": f"\033[4;36m",
     "WHITE": f"\033[4;37m",
 }
+
+STORY = {
+    "UL_IT_GREEN" : f"\033[1;3;32m"
+}

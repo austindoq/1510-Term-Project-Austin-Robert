@@ -1,5 +1,5 @@
 import random, time
-from constants import BOLD, UNDERLINE, BG, COLOUR_END, STORY
+from constants import BOLD, COLOUR_END, STORY, ENEMIES
 from ascii_art import ascii_library
 
 
@@ -333,8 +333,8 @@ def game():
             print("Alas, you cannot go that way! Try again.")
 
     if achieved_goal:
-        begin_narration(2)
-        print(f"{ascii_library["THE_END"]}")
+        begin_narration(1)
+        print(f"{BOLD["GREEN"]}{ascii_library["THE_END"]}")
     else:
         print(f"{BOLD["RED"]}Game over! You ran out of HP.{COLOUR_END}", end="")
 

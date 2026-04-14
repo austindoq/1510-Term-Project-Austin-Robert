@@ -65,7 +65,7 @@ def make_character() -> dict[str, str | int ]:
     return char_info
 
 
-def describe_current_location(board: dict[tuple[int,int], str], character: dict[str, str | int]):
+def describe_current_location(board: dict[tuple[int,int], str], character: dict[str, str | int], rows, columns):
     """
     Print the information associated with the character's current location.
 
@@ -256,7 +256,7 @@ def guessing_game(character:dict[str, str | int]):
                 break
 
 
-def check_if_goal_attained(character: dict[str, str | int]) -> bool:
+def check_if_goal_attained(character: dict[str, str | int], rows, columns) -> bool:
     """
     Decide if game goal has been achieved.
 
@@ -332,7 +332,7 @@ def game():
             # ask_user_to_see_stats(character)
             there_is_a_challenger = check_for_foes()
             if there_is_a_challenger:
-                guessing_game(character, rows, columns)
+                guessing_game(character)
             achieved_goal = check_if_goal_attained(character, rows, columns)
         else:
             print("Alas, you cannot go that way! Try again.")

@@ -3,7 +3,7 @@ from constants import BOLD, COLOUR_END, STORY, ENEMIES
 from ascii_art import ascii_library
 
 
-def make_board(rows, columns):
+def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     """
     Create the grid containing the game's accessible points and environment information.
 
@@ -11,7 +11,7 @@ def make_board(rows, columns):
     :param columns: a non-zero integer
     :precondition: rows must be a non-zero integer
     :precondition: columns must be a non-zero integer
-    :return: a dictionary containing all
+    :return: a dictionary containing all board locations as tuples
     """
     if str(rows).isalpha():
         print(f"Row value must be a number, '{rows}' is not a number.")
@@ -29,8 +29,8 @@ def make_board(rows, columns):
 
     board = {}
 
-    rows = [row for row in range(rows)]
-    columns = [column for column in range(columns)]
+    rows = list(range(rows))
+    columns = list(range(columns))
 
     environment_descriptions = [
         f"{BOLD["GREEN"]}You are in an open field filled with long grass and small boulders.{COLOUR_END}",
@@ -46,7 +46,7 @@ def make_board(rows, columns):
     return board
 
 
-def make_character() -> dict:
+def make_character() -> dict[str, str | int ]:
     """
     Initialize the character stats and info in a dictionary.
 
@@ -68,7 +68,8 @@ def make_character() -> dict:
 
     return char_info
 
-def describe_current_location(board, character):
+
+def describe_current_location(board: dict[tuple[int,int], str], character: dict[str, str | int]):
     """
     Print the information associated with the character's current location.
 
@@ -87,7 +88,7 @@ def describe_current_location(board, character):
         print("Somehow, someway, you've accessed an out of bounds location. Trace your steps back to safety.")
 
 
-def get_user_choice():
+def get_user_choice() -> int:
     """
     Take and process user's choice of direction they wish to travel.
 
@@ -117,7 +118,7 @@ def get_user_choice():
     return user_move
 
 
-def validate_move(board, character, direction):
+def validate_move(board: dict[tuple[int, int], str], character: dict[str, str | int], direction: int) -> bool:
     """
     Validate the user's desired direction to move.
 
@@ -162,7 +163,7 @@ def validate_move(board, character, direction):
     return False
 
 
-def move_character(character, direction):
+def move_character(character: dict[str, str | int], direction: int):
     """
     Apply the desired direction of movement to the character's current position.
 
@@ -196,7 +197,7 @@ def move_character(character, direction):
         character["X-coordinate"] = character["X-coordinate"] - 1
 
 
-def check_for_foes():
+def check_for_foes() -> bool:
     """
     Check for a %25 chance of an enemy encounter.
 
@@ -209,14 +210,14 @@ def check_for_foes():
     else:
         return False
 
-def print_stats(character):
+
+def print_battle_stats(character: dict[str, str | int]):
     """
-    Print the character's stats to the console.
+    Print the battle stats to the console.
 
     :param character: a dictionary containing character information
     :precondition: character must be a dictionary containing character information
-    :postcondition: the character's
-    :return:
+    :postcondition: the relevant stats to the current battle are printed to console
     """
     health = character["Current HP"]
     name = character["Name"]
@@ -226,7 +227,7 @@ def print_stats(character):
           f" {BOLD["BLUE"]}HP:{health}{COLOUR_END}")
 
 
-def guessing_game(character):
+def guessing_game(character:dict[str, str | int]):
     """
     Initiate an integer guessing game with an enemy.
 
@@ -242,7 +243,7 @@ def guessing_game(character):
           f"escape now is to do the impossible! You must guess an integer from 1 - 5...'{COLOUR_END}")
 
     while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
-        print_stats(character)
+        print_battle_stats(character)
         guess = input("Pick an integer from 1 - 5: ")
 
         try:
@@ -259,7 +260,7 @@ def guessing_game(character):
                 break
 
 
-def check_if_goal_attained(character):
+def check_if_goal_attained(character: dict[str, str | int]) -> bool:
     """
     Decide if game goal has been achieved.
 
@@ -278,6 +279,7 @@ def check_if_goal_attained(character):
         return True
     else:
         return False
+
 
 def begin_narration(story_chapter: int) -> None:
     """
@@ -304,7 +306,6 @@ def begin_narration(story_chapter: int) -> None:
                         print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                         time.sleep(2)
                 skip = True
-
 
 
 def game():

@@ -54,11 +54,12 @@ def make_character() -> dict[str, str | int ]:
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
-        "Current HP": 5,
+        "Current HP": 50,
         "Name": name,
         "Rank Title": "Soldado",
         "Rank": 1,
-        "Experience": 0
+        "Experience": 0,
+        "inventory" : {}
     }
 
     return char_info
@@ -74,13 +75,13 @@ def describe_current_location(board: dict[tuple[int,int], str], character: dict[
     :precondition: character must be a dictionary containing the character's current X/Y coordinate
     :postcondition: print the environment info about character's current location
     """
-    current_character_location = (character["X-coordinate"], character["Y-coordinate"])
-    try:
-        for location_key in  board:
-            if current_character_location == location_key:
-                print(board[location_key])
-    except KeyError:
-        print("Somehow, someway, you've accessed an out of bounds location. Trace your steps back to safety.")
+    x_pos, y_pos = character["X-coordinate"], character["Y-coordinate"]
+    status = f"{board[(x_pos,y_pos)]}\nGame board:\n"
+    for column in range(columns):
+        for row in range(rows):
+            status += " *" if row == x_pos and column == y_pos else " _"
+        status += "\n"
+    print(status)
 
 
 def get_user_choice() -> int:
@@ -270,7 +271,7 @@ def check_if_goal_attained(character: dict[str, str | int]) -> bool:
     >>> check_if_goal_attained(doc_character)
     True
     """
-    if (character["X-coordinate"], character["Y-coordinate"]) == (4, 4):
+    if (character["X-coordinate"], character["Y-coordinate"]) == (rows-1, columns-1):
         return True
     else:
         return False
@@ -322,17 +323,17 @@ def game():
 
     character = make_character()
     achieved_goal = False
-
     while not achieved_goal and character["Current HP"] > 0:
         direction = get_user_choice()
         valid_move = validate_move(board, character, direction)
         if valid_move:
             move_character(character, direction)
-            describe_current_location(board, character)
+            describe_current_location(board, character, rows, columns)
+            # ask_user_to_see_stats(character)
             there_is_a_challenger = check_for_foes()
             if there_is_a_challenger:
-                guessing_game(character)
-            achieved_goal = check_if_goal_attained(character)
+                guessing_game(character, rows, columns)
+            achieved_goal = check_if_goal_attained(character, rows, columns)
         else:
             print("Alas, you cannot go that way! Try again.")
 

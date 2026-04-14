@@ -28,8 +28,8 @@ def make_board(rows, columns):
 
     board = {}
 
-    rows = [row for row in range(rows)]
-    columns = [column for column in range(columns)]
+    rows = list(range(rows))
+    columns = list(range(columns))
 
     environment_descriptions = [
         "\033[32mYou are in an open field filled with long grass and small boulders.\033[0m",
@@ -41,7 +41,6 @@ def make_board(rows, columns):
     for row in rows:
         for column in columns:
             board[(row, column)] = environment_descriptions[random.randint(0, 3)]
-
     return board
 
 
@@ -58,16 +57,17 @@ def make_character() -> dict:
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
-        "Current HP": 5,
+        "Current HP": 50,
         "Name": name,
         "Rank Title": "Soldado",
         "Rank": 1,
-        "Experience": 0
+        "Experience": 0,
+        "inventory" : {}
     }
 
     return char_info
 
-def describe_current_location(board, character):
+def describe_current_location(board, character, rows, columns):
     """
     Print the information associated with the character's current location.
 
@@ -77,13 +77,13 @@ def describe_current_location(board, character):
     :precondition: character must be a dictionary containing the character's current X/Y coordinate
     :postcondition: print the environment info about character's current location
     """
-    current_character_location = (character["X-coordinate"], character["Y-coordinate"])
-    try:
-        for location_key in  board:
-            if current_character_location == location_key:
-                print(board[location_key])
-    except KeyError:
-        print("Somehow, someway, you've accessed an out of bounds location. Trace your steps back to safety.")
+    x_pos, y_pos = character["X-coordinate"], character["Y-coordinate"]
+    status = f"{board[(x_pos,y_pos)]}\nGame board:\n"
+    for column in range(columns):
+        for row in range(rows):
+            status += " *" if row == x_pos and column == y_pos else " _"
+        status += "\n"
+    print(status)
 
 
 def get_user_choice():
@@ -217,7 +217,7 @@ def print_stats(character):
           f"{health}\033[0m")
 
 
-def guessing_game(character):
+def guessing_game(character, rows, columns):
     """
     Initiate an integer guessing game with an enemy.
 
@@ -233,8 +233,8 @@ def guessing_game(character):
     print("\033[1;91mEnemy:\033[0m \033[31m'Muahaha, looks like you've sauntered right into my trap! The only way to "
           "escape now is to do the impossible! You must guess an integer from 1 - 5...'\033[0m")
 
-    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
-        print_stats(character)
+    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (rows-1, columns-1):
+        # ask_user_to_see_stats(character)
         guess = input("Pick an integer from 1 - 5: ")
 
         try:
@@ -251,7 +251,7 @@ def guessing_game(character):
                 break
 
 
-def check_if_goal_attained(character):
+def check_if_goal_attained(character, rows, columns):
     """
     Decide if game goal has been achieved.
 
@@ -266,7 +266,7 @@ def check_if_goal_attained(character):
     >>> check_if_goal_attained(doc_character)
     True
     """
-    if (character["X-coordinate"], character["Y-coordinate"]) == (4, 4):
+    if (character["X-coordinate"], character["Y-coordinate"]) == (rows-1, columns-1):
         return True
     else:
         return False
@@ -296,33 +296,44 @@ def begin_narration(story_chapter: int) -> None:
                         time.sleep(2)
                 skip = True
 
+def ask_user_to_see_stats(character):
+    "hp, level...."
+    "wanna see item? Y/N"
+    "wanna use/equipt item? Y/N"
+
+
+def item_rule():
+    rules = [
+        lambda character, item: character["hp"] + 10 if item == "poison" else character["hp"]
+    ]
+    return rules
 
 def game():
     """
     Initialize and start playing the game.
     """
-    rows = 15
-    columns = 15
+    rows = 5
+    columns = 5
     board = make_board(rows, columns)
     begin_narration(0)
     character = make_character()
     achieved_goal = False
-
     while not achieved_goal and character["Current HP"] > 0:
         direction = get_user_choice()
         valid_move = validate_move(board, character, direction)
         if valid_move:
             move_character(character, direction)
-            describe_current_location(board, character)
+            describe_current_location(board, character, rows, columns)
+            # ask_user_to_see_stats(character)
             there_is_a_challenger = check_for_foes()
             if there_is_a_challenger:
-                guessing_game(character)
-            achieved_goal = check_if_goal_attained(character)
+                guessing_game(character, rows, columns)
+            achieved_goal = check_if_goal_attained(character, rows, columns)
         else:
             print("Alas, you cannot go that way! Try again.")
 
     if achieved_goal:
-        print("\033[1;93mCongratulations adventurer! You have reached the legendary plot of (4, 4). It is just as the "
+        print(f"\033[1;93mCongratulations adventurer! You have reached the legendary plot of {rows-1, columns-1}. It is just as the "
               "legends foretold...\033[0m", end="")
 
         print(r"""

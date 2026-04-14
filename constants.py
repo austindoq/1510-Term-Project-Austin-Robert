@@ -50,3 +50,13 @@ ENEMIES = {
         "Name" : f"{UNDERLINE["YELLOW"]}Omagua Warrior{COLOUR_END}"
     }
 }
+
+
+ENV_DESCRIPTIONS = [
+        f"{BOLD["GREEN"]}The dense jungle opens up a little, you can see sun rays trickle in from above.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You climb over fallen Ceibo tree and step into shin high mud. {COLOUR_END}",
+        f"{BOLD["GREEN"]}This area seems to be quiet. Only an ant eater stumbles through the foliage.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You are under a thick jungle canopy, light struggles to reach the forest floor.{COLOUR_END}",
+        f"{BOLD["GREEN"]}You push forward through chest high brambles into a small clearing{COLOUR_END}",
+        f"{BOLD["GREEN"]}You are standing on a high ridge yet can't see far.{COLOUR_END}"
+    ]

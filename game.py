@@ -1,6 +1,6 @@
 import random, time
-from constants import BOLD, COLOUR_END, STORY, ENEMIES
-from ascii_art import ascii_library
+from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS
+import ascii_art
 
 
 def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
@@ -32,16 +32,11 @@ def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     rows = list(range(rows))
     columns = list(range(columns))
 
-    environment_descriptions = [
-        f"{BOLD["GREEN"]}You are in an open field filled with long grass and small boulders.{COLOUR_END}",
-        f"{BOLD["GREEN"]}You enter a sparsely wooded area, the trees are thin and bushes surround the trail.{COLOUR_END}",
-        f"{BOLD["GREEN"]}You are in a arid plane, little vegetation grows here and the wind blows strong.{COLOUR_END}",
-        f"{BOLD["GREEN"]}You are under a thick forest canopy, light struggles to reach the forest floor.{COLOUR_END}"
-    ]
+
 
     for row in rows:
         for column in columns:
-            board[(row, column)] = environment_descriptions[random.randint(0, 3)]
+            board[(row, column)] = ENV_DESCRIPTIONS[random.randint(0, 5)]
 
     return board
 
@@ -281,7 +276,7 @@ def check_if_goal_attained(character: dict[str, str | int]) -> bool:
         return False
 
 
-def begin_narration(story_chapter: int) -> None:
+def begin_narration(story_chapter: int):
     """
     Begin the narration of storyline in the console.
 
@@ -289,8 +284,8 @@ def begin_narration(story_chapter: int) -> None:
     :precondition: story_chapter must be an integer associated with a text file containing the storyline
     :postcondition: a specific chapter's storyline is printed to the console
     """
-    print(f"{BOLD["GREEN"]}{ascii_library["WELCOME"]}\n{COLOUR_END}")
     if story_chapter == 0:
+        print(f"{BOLD["GREEN"]}{ascii_art.ascii_start[0]}\n{COLOUR_END}")
         skip = False
         while not skip:
             acceptable = ["y","n"]
@@ -306,6 +301,14 @@ def begin_narration(story_chapter: int) -> None:
                         print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                         time.sleep(2)
                 skip = True
+
+    if story_chapter == 1:
+        with open("./storyline/end.txt") as file_object:
+            print("")
+            for line in file_object.readlines():
+                print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
+                time.sleep(2)
+            print(f"{BOLD["GREEN"]}{ascii_art.ascii_end[0]}{COLOUR_END}")
 
 
 def game():
@@ -335,7 +338,7 @@ def game():
 
     if achieved_goal:
         begin_narration(1)
-        print(f"{BOLD["GREEN"]}{ascii_library["THE_END"]}")
+
     else:
         print(f"{BOLD["RED"]}Game over! You ran out of HP.{COLOUR_END}", end="")
 

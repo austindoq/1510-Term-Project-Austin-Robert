@@ -1,5 +1,5 @@
 import random, time
-from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS
+from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 import ascii_art
 
 
@@ -51,6 +51,7 @@ def make_character() -> dict[str, str | int ]:
     {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5, 'Name': 'Doris'}
     """
     name = input(f"\n{BOLD["BLUE"]}Player: What was my name again?\nName: {COLOUR_END}")
+    print("\n")
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
@@ -95,8 +96,8 @@ def get_user_choice() -> int:
     valid_selection = {1,2,3,4}
 
     while not user_move:
-        user_move =  input("Please choose which direction you wish to move:\n(1)North\n(2)East\n(3)South\n(4)West\n"
-                           "Move: ")
+        user_move =  input(f"{UNDERLINE["WHITE"]}Please choose which direction you wish to move:"
+                           f"{COLOUR_END}\n(1)North\n(2)East\n(3)South\n(4)West\n>> ")
         try:
             user_move = int(user_move)
         except ValueError:
@@ -219,10 +220,11 @@ def print_battle_stats(character: dict[str, str | int]):
     name = character["Name"]
     rank_title = character["Rank Title"]
     xp = character["XP"]
-    print(f"══════════════════════════════════════════════\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
+    print(f"\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
     }{name}{COLOUR_END} the {BOLD["BLUE"]}"
     f"{rank_title.title()}{COLOUR_END} | HP:{BOLD["RED"]}{health}{COLOUR_END} | XP:{BOLD["YELLOW"]}{xp}{COLOUR_END} │"
-          f"\n══════════════════════════════════════════════")
+          f"\n| {ENEMIES[character["Rank"]]["Name"]} | HP:{BOLD["RED"]}{ENEMIES[character["Rank"]]["Current HP"]}"
+          f"{COLOUR_END} | \n")
 
 
 def check_if_goal_attained(character: dict[str, str | int], rows: int, columns: int) -> bool:

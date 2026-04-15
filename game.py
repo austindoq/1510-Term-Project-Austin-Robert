@@ -220,14 +220,10 @@ def print_battle_stats(character: dict[str, str | int]):
     rank_title = character["Rank Title"]
     rank = character["Rank"]
     xp = character["XP"]
-    print(f"═══════════════════════════════════════════════\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
+    print(f"══════════════════════════════════════════════\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
     }{name}{COLOUR_END} the {BOLD["BLUE"]}"
     f"{rank_title.title()}{COLOUR_END} | HP:{BOLD["RED"]}{health}{COLOUR_END} | XP:{BOLD["YELLOW"]}{xp}{COLOUR_END} │"
-          f"\n═══════════════════════════════════════════════")
-
-
-
-
+          f"\n══════════════════════════════════════════════")
 
 
 def check_if_goal_attained(character: dict[str, str | int], rows: int, columns: int) -> bool:

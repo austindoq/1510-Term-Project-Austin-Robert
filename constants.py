@@ -1,3 +1,5 @@
+import random
+
 BOLD = {
     "BLACK" : f"\033[1;90m",
     "RED": f"\033[1;91m",
@@ -37,17 +39,20 @@ ENEMIES = {
     "Easy" : {
         "Current HP" : 1,
         "XP Dropped" : 2,
-        "Name" : f"{UNDERLINE["GREEN"]}Swarm of Mosquitoes{COLOUR_END}"
+        "Name" : f"{UNDERLINE["GREEN"]}Swarm of Mosquitoes{COLOUR_END}",
+        "Attack Roll" : random.randint(0,5)
     },
     "Medium" : {
         "Current HP" : 2,
         "XP Dropped" : 5,
-        "Name" : f"{UNDERLINE["PURPLE"]}Jungle Panther{COLOUR_END}"
+        "Name" : f"{UNDERLINE["PURPLE"]}Jungle Panther{COLOUR_END}",
+        "Attack Roll" : random.randint(0,5)
     },
     "Hard" : {
         "Current HP" : 3,
         "XP Dropped" : 10,
-        "Name" : f"{UNDERLINE["YELLOW"]}Omagua Warrior{COLOUR_END}"
+        "Name" : f"{UNDERLINE["YELLOW"]}Omagua Warrior{COLOUR_END}",
+        "Attack Roll" : random.randint(0,5)
     }
 }
 

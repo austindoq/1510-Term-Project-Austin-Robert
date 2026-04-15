@@ -7,10 +7,10 @@ def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     """
     Create the grid containing the game's accessible points and environment information.
 
-    :param rows: a non-zero integer
-    :param columns: a non-zero integer
-    :precondition: rows must be a non-zero integer
-    :precondition: columns must be a non-zero integer
+    :param rows: a positive non-zero integer
+    :param columns: a positive non-zero integer
+    :precondition: rows must be a positive non-zero integer
+    :precondition: columns must be a positive non-zero integer
     :return: a dictionary containing all board locations as tuples
     """
     if str(rows).isalpha():
@@ -58,7 +58,7 @@ def make_character() -> dict[str, str | int ]:
         "Name": name,
         "Rank Title": "Soldado",
         "Rank": 1,
-        "Experience": 0,
+        "XP": 0,
         "inventory" : {}
     }
 
@@ -219,6 +219,7 @@ def print_battle_stats(character: dict[str, str | int]):
     name = character["Name"]
     rank_title = character["Rank Title"]
     rank = character["Rank"]
+    exp = character["E"]
     print(f"{BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]}{name} the level {rank} {rank_title}{COLOUR_END} |"
           f" {BOLD["BLUE"]}HP:{health}{COLOUR_END}")
 
@@ -252,17 +253,23 @@ def guessing_game(character:dict[str, str | int]):
                 print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}")
                 print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
             else:
+
                 print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
                 break
 
 
-def check_if_goal_attained(character: dict[str, str | int], rows, columns) -> bool:
+
+def check_if_goal_attained(character: dict[str, str | int], rows: int, columns: int) -> bool:
     """
     Decide if game goal has been achieved.
 
     :param character: a dictionary containing character information
+    :param rows: a positive non-zero integer
+    :param columns: a positive non-zero integer
+    :precondition: rows must be a positive non-zero integer
+    :precondition: columns must be a positive non-zero integer
     :precondition: character must be a dictionary containing character's current x and y coordinates
-    :postcondition: correctly decide if the character's current position is in (4, 4)
+    :postcondition: correctly decide if the character's current position is in (14, 14)
     :return: True if character is currently in (4,4) otherwise False
     >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 1,"Current HP": 5,"Name": "Doris"}
     >>> check_if_goal_attained(doc_character)

@@ -54,7 +54,7 @@ def make_character() -> dict[str, str | int ]:
     char_info = {
         "X-coordinate": 0,
         "Y-coordinate": 0,
-        "Current HP": 50,
+        "Current HP": 10,
         "Name": name,
         "Rank Title": "Soldado",
         "Rank": 1,
@@ -218,7 +218,6 @@ def print_battle_stats(character: dict[str, str | int]):
     health = character["Current HP"]
     name = character["Name"]
     rank_title = character["Rank Title"]
-    rank = character["Rank"]
     xp = character["XP"]
     print(f"══════════════════════════════════════════════\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
     }{name}{COLOUR_END} the {BOLD["BLUE"]}"
@@ -315,9 +314,41 @@ def guessing_game(character:dict[str, str | int]):
                 print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}")
                 print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
             else:
-                print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
-                # apply_reward(character)
+                print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}\n")
+                apply_reward(character)
                 break
+
+
+def apply_reward(character: dict[str, str | int]) -> None:
+    """
+    Apply gained XP from winning a battle to the player and award level up buffs if certain conditions are met.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing the character's information
+    :postcondition: the correct enemy dropped XP reward is applied to the character
+    """
+    character["XP"] += ENEMIES[character["Rank"]]["XP Dropped"]
+    print(f"XP Gained: {BOLD["YELLOW"]}{ENEMIES[character["Rank"]]["XP Dropped"]}{COLOUR_END}")
+
+    if character["XP"] > 5 and character["Rank"] == 1:
+        character["Rank"] += 1
+        character["Current HP"] += 10
+        character["Rank Title"] = "Cabo"
+        print(f"{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
+        }{character["Rank Title"]}{COLOUR_END}")
+        print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}\n")
+    elif character["XP"] > 15 and character["Rank"] == 2:
+        character["Rank"] += 1
+        character["Current HP"] += 10
+        character["Rank Title"] = "Capitán"
+        print(f"{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
+        }{character["Rank Title"]}{COLOUR_END}")
+        print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}\n")
+    else:
+        character["Current HP"] += 1
+        print(f"{BOLD["GREEN"]}+1 HP{COLOUR_END}\n")
+
+
 
 
 def game():

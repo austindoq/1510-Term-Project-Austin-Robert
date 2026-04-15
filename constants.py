@@ -36,21 +36,21 @@ STORY = {
 }
 
 ENEMIES = {
-    "Easy" : {
+    1 : {
         "Current HP" : 1,
         "XP Dropped" : 2,
         "Name" : f"{UNDERLINE["GREEN"]}Swarm of Mosquitoes{COLOUR_END}",
         "Attack Roll" : random.randint(0,5)
     },
-    "Medium" : {
+    2 : {
         "Current HP" : 2,
-        "XP Dropped" : 5,
+        "XP Dropped" : 4,
         "Name" : f"{UNDERLINE["PURPLE"]}Jungle Panther{COLOUR_END}",
         "Attack Roll" : random.randint(0,5)
     },
-    "Hard" : {
+    3 : {
         "Current HP" : 3,
-        "XP Dropped" : 10,
+        "XP Dropped" : 8,
         "Name" : f"{UNDERLINE["YELLOW"]}Omagua Warrior{COLOUR_END}",
         "Attack Roll" : random.randint(0,5)
     }

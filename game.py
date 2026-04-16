@@ -197,21 +197,21 @@ def move_character(character: dict[str, str | int], direction: int):
         character["X-coordinate"] = character["X-coordinate"] - 1
 
 
-def check_for_foes() -> bool:
+def check_for_foes(character: dict[str, str | int]) -> bool:
     """
     Check for a %25 chance of an enemy encounter.
 
     :postcondition: randomly select a number in the range [1,4] inclusive
     :return: True if number rolled is 4 otherwise False
     """
-    foe_check = random.randint(1,4)
-    if foe_check == 4:
+    foe_check = random.randint(1,3)
+    if foe_check == 3 or (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14):
         return True
     else:
         return False
 
 
-def print_battle_stats(character: dict[str, str | int]):
+def print_battle_stats(character: dict[str, str | int], enemy):
     """
     Print the battle stats to the console.
 
@@ -226,7 +226,7 @@ def print_battle_stats(character: dict[str, str | int]):
     print(f"\n│ {BOLD["RED"]}[IN BATTLE]{COLOUR_END} | {BOLD["BLUE"]
     }{name}{COLOUR_END} the {BOLD["BLUE"]}"
     f"{rank_title.title()}{COLOUR_END} | HP:{BOLD["RED"]}{health}{COLOUR_END} | XP:{BOLD["YELLOW"]}{xp}{COLOUR_END} │"
-          f"\n| {ENEMIES[character["Rank"]]["Name"]} | HP:{BOLD["RED"]}{ENEMIES[character["Rank"]]["Current HP"]}"
+          f"\n| {enemy["Name"]} | HP:{BOLD["RED"]}{enemy["Current HP"]}"
           f"{COLOUR_END} | \n")
 
 
@@ -297,44 +297,44 @@ def begin_narration(story_chapter: int) -> None:
             file_object.close()
 
 
-def guessing_game(character:dict[str, str | int]):
-    """
-    Initiate an integer guessing game with an enemy.
+# def guessing_game(character:dict[str, str | int]):
+#     """
+#     Initiate an integer guessing game with an enemy.
+#
+#     :param character: a dictionary containing character information
+#     :precondition: character must be a dictionary containing the character's current HP`
+#     :postcondition: user will engage in a riveting integer guessing game
+#     """
+#     acceptable_guesses = [1,2,3,4,5]
+#     answer = random.randint(1, 5)
+#
+#     print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
+#     print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
+#           f"escape now is to do the impossible! You must guess an integer from 1 - 5...'{COLOUR_END}")
+#
+#     while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
+#         print_battle_stats(character)
+#         guess = input("Pick an integer from 1 - 5: ")
+#
+#         try:
+#             guess = int(guess)
+#         except ValueError:
+#             print(f"You must enter a number! '{guess}' is not an integer. Try again.")
+#         else:
+#             if guess not in acceptable_guesses or guess != answer:
+#                 character["Current HP"] = character["Current HP"] - 1
+#                 print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}\n")
+#                 print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
+#             else:
+#                 print(f"══════════════════════════════")
+#                 print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
+#                 apply_reward(character)
+#                 print(f"══════════════════════════════\n")
+#
+#                 break
 
-    :param character: a dictionary containing character information
-    :precondition: character must be a dictionary containing the character's current HP`
-    :postcondition: user will engage in a riveting integer guessing game
-    """
-    acceptable_guesses = [1,2,3,4,5]
-    answer = random.randint(1, 5)
 
-    print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
-    print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
-          f"escape now is to do the impossible! You must guess an integer from 1 - 5...'{COLOUR_END}")
-
-    while character["Current HP"] > 0 and (character["X-coordinate"], character["Y-coordinate"]) != (14, 14):
-        print_battle_stats(character)
-        guess = input("Pick an integer from 1 - 5: ")
-
-        try:
-            guess = int(guess)
-        except ValueError:
-            print(f"You must enter a number! '{guess}' is not an integer. Try again.")
-        else:
-            if guess not in acceptable_guesses or guess != answer:
-                character["Current HP"] = character["Current HP"] - 1
-                print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}\n")
-                print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
-            else:
-                print(f"══════════════════════════════")
-                print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
-                apply_reward(character)
-                print(f"══════════════════════════════\n")
-
-                break
-
-
-def apply_reward(character: dict[str, str | int]) -> None:
+def apply_reward(character: dict[str, str | int], enemy) -> None:
     """
     Apply gained XP and HP from winning a battle to the player and award level up buffs if certain conditions are met.
 
@@ -342,7 +342,7 @@ def apply_reward(character: dict[str, str | int]) -> None:
     :precondition: character must be a dictionary containing the character's information
     :postcondition: the correct enemy dropped XP reward is applied to the character
     """
-    character["XP"] += ENEMIES[character["Rank"]]["XP Dropped"]
+    character["XP"] += enemy["XP Dropped"]
     character["Current HP"] += 1
     print(f"{BOLD["GREEN"]}+1 HP{COLOUR_END}")
     print(f"XP Gained: {BOLD["YELLOW"]}{ENEMIES[character["Rank"]]["XP Dropped"]}{COLOUR_END}")
@@ -373,12 +373,79 @@ def check_if_level_up(character: dict[str, str | int]) -> None:
         print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}")
 
 
+def decide_enemy(character:dict[str, str | int]):
+    progress = character["X-coordinate"] + character["Y-coordinate"]
+    dangerous = character["X-coordinate"] * character["Y-coordinate"]
+    meet_hard = dangerous / 300
+    meet_medium = progress / 30
+    if (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14):
+        return ENEMIES[10]
+    if random.random() < meet_hard:
+        return ENEMIES[random.randint(7,9)]
+    elif random.random() < meet_medium:
+        return ENEMIES[random.randint(4,6)]
+    else:
+        return ENEMIES[random.randint(0,3)]
+
+
+def guessing_game(character:dict[str, str | int]):
+    """
+    Initiate an integer guessing game with an enemy.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing the character's current HP`
+    :postcondition: user will engage in a riveting integer guessing game
+    """
+    enemy = decide_enemy(character).copy()
+
+    print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
+    print(f"It is {enemy["Name"]}!")
+    print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
+          f"escape now is to do the impossible! Try defend or counter my attack'{COLOUR_END}")
+
+    while character["Current HP"] > 0:
+        print_battle_stats(character, enemy)
+
+        player_choice = input(f"Enemy is trying to attack you!:\n(1) to defense this attack\n(2) to counterattack ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            print(f"You must enter a number! '{player_choice}' is not an integer. Try again.")
+        else:
+            if player_choice == 2:
+                print(f"You make a counter attack and hit the enemy in the first place")
+                if enemy["Current HP"] == 1:
+                    print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
+                    apply_reward(character, enemy)
+                    break
+                else: enemy["Current HP"] -= 1
+            if random.random() < enemy["Hit chance"]:
+                print(f"Enemy's attack head towards you.")
+                if player_choice == 1:
+                    if random.random() < 0.3*character["Rank"]:
+                        print(f"You successfully defended against the attack.")
+                    else:
+                        print(f"Enemy break through your defense.")
+                        character["Current HP"] -= 1
+                else:
+                    print(f"You get hit from the expected damage.")
+                    character["Current HP"] -= 1
+            else:
+                print("Enemy's attack miss you.")
+
+        enemy["Hit chance"] *= 0.95 if enemy["stamina"] > 0 else 0.8
+        enemy["stamina"] -= 1
+
+
+    return character
+
+
 def game():
     """
     Initialize and start playing the game.
     """
-    rows = 5
-    columns = 5
+    rows = 15
+    columns = 15
     board = make_board(rows, columns)
     begin_narration(0)
 
@@ -392,9 +459,10 @@ def game():
             move_character(character, direction)
             describe_current_location(board, character, rows, columns)
             # ask_user_to_see_stats(character)
-            there_is_a_challenger = check_for_foes()
+            there_is_a_challenger = check_for_foes(character)
             if there_is_a_challenger:
                 guessing_game(character)
+
             achieved_goal = check_if_goal_attained(character, rows, columns)
         else:
             print("Alas, you cannot go that way! Try again.")

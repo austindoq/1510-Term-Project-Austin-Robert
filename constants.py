@@ -19,6 +19,10 @@ BG = {
     "CYAN": f"\033[0;106m",
 }
 
+STORY = {
+    "UL_IT_GREEN" : f"\033[1;3;32m"
+}
+
 COLOUR_END =  f"\033[0m"
 
 UNDERLINE = {
@@ -31,30 +35,95 @@ UNDERLINE = {
     "WHITE": f"\033[1;4;38m",
 }
 
-STORY = {
-    "UL_IT_GREEN" : f"\033[1;3;32m"
-}
 
-ENEMIES = {
-    1 : {
-        "Current HP" : 1,
-        "XP Dropped" : 2,
-        "Name" : f"{UNDERLINE["GREEN"]}Swarm of Mosquitoes{COLOUR_END}",
-        "Attack Roll" : random.randint(0,5)
+ENEMIES = [
+
+    # Easy
+    {
+        "Current HP": 1,
+        "XP Dropped": 1,
+        "Hit chance": 0.7,
+        "stamina": 1,
+        "Name": f"{UNDERLINE['GREEN']}Swarm of Mosquitoes{COLOUR_END}"
     },
-    2 : {
-        "Current HP" : 2,
-        "XP Dropped" : 4,
-        "Name" : f"{UNDERLINE["PURPLE"]}Jungle Panther{COLOUR_END}",
-        "Attack Roll" : random.randint(0,5)
+    {
+        "Current HP": 2,
+        "XP Dropped": 3,
+        "Hit chance": 0.5,
+        "stamina": 2,
+        "Name": f"{UNDERLINE['GREEN']}Poison Dart Frog{COLOUR_END}"
     },
-    3 : {
-        "Current HP" : 3,
-        "XP Dropped" : 8,
-        "Name" : f"{UNDERLINE["YELLOW"]}Omagua Warrior{COLOUR_END}",
-        "Attack Roll" : random.randint(0,5)
+    {
+        "Current HP": 2,
+        "XP Dropped": 3,
+        "Hit chance": 0.55,
+        "stamina": 2,
+        "Name": f"{UNDERLINE['GREEN']}Jungle Snake{COLOUR_END}"
+    },
+    {
+        "Current HP": 2,
+        "XP Dropped": 4,
+        "Hit chance": 0.6,
+        "stamina": 3,
+        "Name": f"{UNDERLINE['GREEN']}Piranha Swarm{COLOUR_END}"
+    },
+
+    # Medium
+    {
+        "Current HP": 4,
+        "XP Dropped": 7,
+        "Hit chance": 0.7,
+        "stamina": 5,
+        "Name": f"{UNDERLINE['PURPLE']}Jungle Panther{COLOUR_END}"
+    },
+    {
+        "Current HP": 3,
+        "XP Dropped": 6,
+        "Hit chance": 0.65,
+        "stamina": 4,
+        "Name": f"{UNDERLINE['PURPLE']}Giant Anaconda{COLOUR_END}"
+    },
+    {
+        "Current HP": 3,
+        "XP Dropped": 7,
+        "Hit chance": 0.8,
+        "stamina": 6,
+        "Name": f"{UNDERLINE['PURPLE']}Tribal Hunter{COLOUR_END}"
+    },
+
+    # Hard
+    {
+        "Current HP": 7,
+        "XP Dropped": 15,
+        "Hit chance": 1.0,
+        "stamina": 7,
+        "Name": f"{UNDERLINE['YELLOW']}Omagua War Chief{COLOUR_END}"
+    },
+    {
+        "Current HP": 8,
+        "XP Dropped": 12,
+        "Hit chance": 0.9,
+        "stamina": 8,
+        "Name": f"{UNDERLINE['YELLOW']}Omagua Warrior{COLOUR_END}"
+    },
+    {
+        "Current HP": 10,
+        "XP Dropped": 10,
+        "Hit chance": 0.6,
+        "stamina": 5,
+        "Name": f"{UNDERLINE['YELLOW']}Giant Caiman{COLOUR_END}"
+    },
+
+    #Boss
+    {
+        "Current HP": 20,
+        "XP Dropped": 100,
+        "Hit chance": 1.2,
+        "stamina": 10,
+        "Name": f"{UNDERLINE['RED']}Amazon Spirit Guardian{COLOUR_END}"
     }
-}
+
+]
 
 
 ENV_DESCRIPTIONS = [
@@ -65,3 +134,4 @@ ENV_DESCRIPTIONS = [
         f"{BOLD["GREEN"]}You push forward through chest high brambles into a small clearing{COLOUR_END}",
         f"{BOLD["GREEN"]}You are standing on a high ridge yet can't see far.{COLOUR_END}"
     ]
+

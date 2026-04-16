@@ -36,7 +36,7 @@ class Test(TestCase):
         begin_narration(0)
         mock_file.assert_not_called()
 
-    #FileNotFoundError user message
+    #FileNotFoundError prints helpful user message
     @patch("builtins.input", return_value="n")
     @patch("builtins.open", side_effect=FileNotFoundError)
     @patch("sys.stdout", new_callable=StringIO)

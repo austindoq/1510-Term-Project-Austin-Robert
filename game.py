@@ -255,7 +255,7 @@ def check_if_goal_attained(character: dict[str, str | int], rows: int, columns: 
         return False
 
 
-def begin_narration(story_chapter: int):
+def begin_narration(story_chapter: int) -> None:
     """
     Begin the narration of storyline in the console.
 
@@ -274,20 +274,27 @@ def begin_narration(story_chapter: int):
             elif skip_choice == "y":
                 skip = True
             else:
-                with open("./storyline/start.txt") as file_object:
-                    print("")
+                try:
+                    file_object = open("./storyline/start.txt", "r")
+                except FileNotFoundError:
+                    print("Storyline file missing, please reinstall file.")
+                else:
                     for line in file_object.readlines():
                         print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                         time.sleep(2)
-                skip = True
+                    file_object.close()
+                break
 
     if story_chapter == 1:
-        with open("./storyline/end.txt") as file_object:
-            print("")
+        try:
+            file_object = open("./storyline/end.txt", "r")
+        except FileNotFoundError:
+            print("Storyline file missing, please reinstall file.")
+        else:
             for line in file_object.readlines():
                 print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                 time.sleep(2)
-            print(f"{BOLD["GREEN"]}{ascii_art.ascii_end[0]}{COLOUR_END}")
+            file_object.close()
 
 
 def guessing_game(character:dict[str, str | int]):

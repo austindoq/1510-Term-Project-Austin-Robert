@@ -47,8 +47,6 @@ def make_character() -> dict[str, str | int ]:
 
     :postcondition: create a dictionary containing character information
     :return: a dictionary containing character stats and information
-    >>> make_character()
-    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5, 'Name': 'Doris'}
     """
     name = input(f"\n{BOLD["BLUE"]}Player: What was my name again?\nName: {COLOUR_END}")
     print("\n")

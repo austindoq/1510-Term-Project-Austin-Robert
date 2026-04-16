@@ -1,3 +1,5 @@
+import random
+
 BOLD = {
     "BLACK" : f"\033[1;90m",
     "RED": f"\033[1;91m",
@@ -30,7 +32,7 @@ UNDERLINE = {
     "BLUE": f"\033[4;34m",
     "PURPLE": f"\033[4;35m",
     "CYAN": f"\033[4;36m",
-    "WHITE": f"\033[4;37m",
+    "WHITE": f"\033[1;4;38m",
 }
 
 ENEMIES = [

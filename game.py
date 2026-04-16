@@ -311,7 +311,7 @@ def guessing_game(character:dict[str, str | int]):
         else:
             if guess not in acceptable_guesses or guess != answer:
                 character["Current HP"] = character["Current HP"] - 1
-                print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}")
+                print(f"{BOLD["RED"]}Enemy: Just as I expected, WRONG!{COLOUR_END}\n")
                 print(f"{BOLD["BLUE"]}Player: 'ACK!' {COLOUR_END}{BOLD["RED"]}(-1hp){COLOUR_END}")
             else:
                 print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}\n")
@@ -361,6 +361,7 @@ def game():
     begin_narration(0)
 
     character = make_character()
+    describe_current_location(board, character, rows, columns)
     achieved_goal = False
     while not achieved_goal and character["Current HP"] > 0:
         direction = get_user_choice()

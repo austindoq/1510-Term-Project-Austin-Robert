@@ -1,5 +1,6 @@
 import random, time
-from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS
+
+from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 import ascii_art
 
 
@@ -57,7 +58,7 @@ def make_character() -> dict[str, str | int ]:
         "Current HP": 50,
         "Name": name,
         "Rank Title": "Soldado",
-        "Rank": 1,
+        "Rank": 3,
         "Experience": 0,
         "inventory" : {}
     }
@@ -223,10 +224,8 @@ def print_battle_stats(character: dict[str, str | int]):
           f" {BOLD["BLUE"]}HP:{health}{COLOUR_END}")
 
 
-def guessing_game(character:dict[str, str | int]):
-    """
-    Initiate an integer guessing game with an enemy.
 
+<<<<<<< Updated upstream
     :param character: a dictionary containing character information
     :precondition: character must be a dictionary containing the character's current HP`
     :postcondition: user will engage in a riveting integer guessing game
@@ -256,6 +255,8 @@ def guessing_game(character:dict[str, str | int]):
                 break
 
 
+=======
+>>>>>>> Stashed changes
 def check_if_goal_attained(character: dict[str, str | int], rows, columns) -> bool:
     """
     Decide if game goal has been achieved.
@@ -312,12 +313,75 @@ def begin_narration(story_chapter: int):
             print(f"{BOLD["GREEN"]}{ascii_art.ascii_end[0]}{COLOUR_END}")
 
 
+def decide_enemy(character:dict[str, str | int]):
+    progress = character["X-coordinate"] + character["Y-coordinate"]
+    dangerous = character["X-coordinate"] * character["Y-coordinate"]
+    meet_hard = dangerous / 300
+    meet_medium = progress / 30
+    if random.random() < meet_hard:
+        return ENEMIES[random.randint(7,8)]
+    elif random.random() < meet_medium:
+        return ENEMIES[random.randint(4,6)]
+    else:
+        return ENEMIES[random.randint(0,3)]
+
+
+def guessing_game(character:dict[str, str | int]):
+    """
+    Initiate an integer guessing game with an enemy.
+
+    :param character: a dictionary containing character information
+    :precondition: character must be a dictionary containing the character's current HP`
+    :postcondition: user will engage in a riveting integer guessing game
+    """
+    enemy = decide_enemy(character).copy()
+
+
+    print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
+    print(f"It is {enemy["Name"]}!")
+    print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
+          f"escape now is to do the impossible! Try defend or counter my attack'{COLOUR_END}")
+
+    while (character["Current HP"] > 0 and
+           (character["X-coordinate"], character["Y-coordinate"]) != (14, 14)):
+        print(f"Enemy HP left:{enemy["Current HP"]}")
+        print_battle_stats(character)
+
+        player_choice = input(f"Enemy is trying to attack you!:\n(1) to defense this attack\n(2) to counterattack ")
+        try:
+            player_choice = int(player_choice)
+        except ValueError:
+            print(f"You must enter a number! '{player_choice}' is not an integer. Try again.")
+        else:
+            if player_choice == 2:
+                print(f"You make a counter attack and hit the enemy in the first place")
+                if enemy["Current HP"] == 1:
+                    print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
+                    break
+                else: enemy["Current HP"] -= 1
+            if random.random() < enemy["Hit chance"]:
+                print(f"Enemy's attack head towards you.")
+                if player_choice == 1:
+                    if random.random() < 0.8:
+                        print(f"You successfully defended against the attack.")
+                    else:
+                        print(f"Enemy break through your defense.")
+                        character["Current HP"] -= 1
+                else:
+                    print(f"You get hit from the expected damage.")
+                    character["Current HP"] -= 1
+            else:
+                print("Enemy's attack miss you.")
+
+    return character
+
+
 def game():
     """
     Initialize and start playing the game.
     """
-    rows = 5
-    columns = 5
+    rows = 15
+    columns = 15
     board = make_board(rows, columns)
     begin_narration(0)
 
@@ -333,6 +397,10 @@ def game():
             there_is_a_challenger = check_for_foes()
             if there_is_a_challenger:
                 guessing_game(character)
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             achieved_goal = check_if_goal_attained(character, rows, columns)
         else:
             print("Alas, you cannot go that way! Try again.")

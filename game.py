@@ -304,7 +304,6 @@ def guessing_game(character:dict[str, str | int]):
     """
     enemy = decide_enemy(character).copy()
 
-
     print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
     print(f"It is {enemy["Name"]}!")
     print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
@@ -340,7 +339,6 @@ def guessing_game(character:dict[str, str | int]):
                     character["Current HP"] -= 1
             else:
                 print("Enemy's attack miss you.")
-
     return character
 
 

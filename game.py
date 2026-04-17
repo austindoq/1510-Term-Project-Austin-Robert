@@ -246,11 +246,11 @@ def check_if_goal_attained(character: dict[str, str | int], rows: int, columns: 
     :precondition: character must be a dictionary containing character's current x and y coordinates
     :postcondition: correctly decide if the character's current position is in (14, 14)
     :return: True if character is currently in (4,4) otherwise False
-    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 1,"Current HP": 5,"Name": "Doris"}
-    >>> check_if_goal_attained(doc_character)
+    >>> doc_character = {"X-coordinate": 0,"Y-coordinate": 1,"Current HP": 5}
+    >>> check_if_goal_attained(doc_character, 15, 15)
     False
-    >>> doc_character = {"X-coordinate": 4,"Y-coordinate": 4,"Current HP": 5,"Name": "Doris"}
-    >>> check_if_goal_attained(doc_character)
+    >>> doc_character = {"X-coordinate": 14,"Y-coordinate": 14,"Current HP": 5}
+    >>> check_if_goal_attained(doc_character, 15, 15)
     True
     """
     if (character["X-coordinate"], character["Y-coordinate"]) == (rows-1, columns-1):

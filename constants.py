@@ -115,7 +115,7 @@ ENEMIES = [
 
     #Boss
     {
-        "Current HP": 20,
+        "Current HP": 15,
         "XP Dropped": 100,
         "Hit chance": 2.0,
         "stamina": 15,

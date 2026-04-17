@@ -336,18 +336,20 @@ def begin_narration(story_chapter: int) -> None:
 #                 break
 
 
-def apply_reward(character: dict[str, str | int], enemy) -> None:
+def apply_reward(character: dict[str, str | int], enemy: dict[str, str | int]) -> None:
     """
     Apply gained XP and HP from winning a battle to the player and award level up buffs if certain conditions are met.
 
     :param character: a dictionary containing character information
+    :param enemy:
     :precondition: character must be a dictionary containing the character's information
+    :preconditoin:
     :postcondition: the correct enemy dropped XP reward is applied to the character
     """
     character["XP"] += enemy["XP Dropped"]
     character["Current HP"] += 1
     print(f"{BOLD["GREEN"]}+1 HP{COLOUR_END}")
-    print(f"XP Gained: {BOLD["YELLOW"]}{ENEMIES[character["Rank"]]["XP Dropped"]}{COLOUR_END}")
+    print(f"XP Gained: {BOLD["YELLOW"]}{enemy["XP Dropped"]}{COLOUR_END}")
     check_if_level_up(character)
 
 
@@ -365,7 +367,7 @@ def check_if_level_up(character: dict[str, str | int]) -> None:
         character["Rank Title"] = "Cabo"
         print(f"\n{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
         }{character["Rank Title"]}{COLOUR_END}")
-        print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}")
+        print(f"{BOLD["GREEN"]}+5 HP{COLOUR_END}")
     elif character["XP"] > 15 and character["Rank"] == 2:
         character["Rank"] += 1
         character["Current HP"] += 10
@@ -379,7 +381,7 @@ def check_if_level_up(character: dict[str, str | int]) -> None:
         character["Rank Title"] = "Capitán"
         print(f"\n{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
         }{character["Rank Title"]}{COLOUR_END}")
-        print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}")
+        print(f"{BOLD["GREEN"]}+15 HP{COLOUR_END}")
 
 
 def decide_enemy(character:dict[str, str | int]):

@@ -1,8 +1,8 @@
 import random, time
 from time import sleep
-
-from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 import ascii_art
+from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
+
 
 
 def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
@@ -29,14 +29,7 @@ def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
         print(f"Column value must be greater than 0, '{columns}' is not greater than 0.")
         raise ValueError
 
-    board = {}
-
-    rows = list(range(rows))
-    columns = list(range(columns))
-
-    for row in rows:
-        for column in columns:
-            board[(row, column)] = ENV_DESCRIPTIONS[random.randint(0, 5)]
+    board = {(row, column): ENV_DESCRIPTIONS[random.randint(0,5)] for column in range(columns) for row in range(rows)}
 
     return board
 
@@ -297,6 +290,7 @@ def begin_narration(story_chapter: int) -> None:
                 print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                 time.sleep(2)
             file_object.close()
+            print(f"{ascii_art.ascii_end}")
 
 
 def apply_reward(character: dict[str, str | int], enemy: dict[str, str | int]) -> None:

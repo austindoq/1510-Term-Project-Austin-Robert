@@ -34,8 +34,6 @@ def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     rows = list(range(rows))
     columns = list(range(columns))
 
-
-
     for row in rows:
         for column in columns:
             board[(row, column)] = ENV_DESCRIPTIONS[random.randint(0, 5)]

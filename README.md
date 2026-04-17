@@ -36,7 +36,7 @@ austindoq
 |   | for loop and while loop                             | `game.py` lines  78-81, 376-420                         |   |
 |   | Membership operator                                 | `game.py` line 78                                       |   |
 |   | `range()` function                                  | `game.py` line 32                                       |   |
-|   | `itertools` usage                                   | `game.py` line 115-150                                  |   |
+|   | `itertools` usage                                   | `game.py` line 138                                      |   |
 |   | `random` module                                     | `game.py` line 390                                      |   |
 |   | Function annotations                                | `game.py` line 8-360                                    |   |
 |   | Doctests                                            | `game.py` line 127, 169, 241                            |   |

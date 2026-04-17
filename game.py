@@ -1,4 +1,4 @@
-import random, time
+import random, time, itertools
 from time import sleep
 import ascii_art
 from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
@@ -134,25 +134,13 @@ def validate_move(board: dict[tuple[int, int], str], character: dict[str, str | 
     >>> validate_move(doc_board, doc_character, doc_direction)
     False
     """
-    north = (character["X-coordinate"],character["Y-coordinate"] - 1)
-    east = (character["X-coordinate"] + 1,character["Y-coordinate"])
-    south = (character["X-coordinate"],character["Y-coordinate"] + 1)
-    west = (character["X-coordinate"] -1,character["Y-coordinate"])
-
-    if direction == 1:
-        desired_coord = north
-    elif direction == 2:
-        desired_coord = east
-    elif direction == 3:
-        desired_coord = south
-    else:
-        desired_coord = west
-
+    position = character["X-coordinate"],character["Y-coordinate"]
+    raw_directions = itertools.product([-1, 0, 1], repeat=2)
+    filtered_directions = filter(lambda tup: 0 in tup and (1 in tup or -1 in tup),raw_directions)
+    [west, north, south, east] = [tuple(pos + direct for pos, direct in zip(position, option)) for option in filtered_directions]
+    desired_coord = [north, east, south, west][direction - 1]
     for location in board.keys():
-        if location == desired_coord:
-            return True
-        else:
-            continue
+        if location == desired_coord: return True
     return False
 
 

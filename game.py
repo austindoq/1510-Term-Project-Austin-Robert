@@ -424,16 +424,19 @@ def guessing_game(character:dict[str, str | int]):
             print(f"You must enter a number! '{player_choice}' is not an integer. Try again.")
         else:
             sleep(1)
-            print(f"\nThe {enemy["Name"]} makes a move!")
+            print(f"\nThe enemy makes a move!")
             sleep(1)
             if player_choice == 2:
                 if random.random() < 0.4 + 0.1 * character["Rank"]:
-                    print(f"\nYou make a counter attack and hit the enemy first {BOLD["YELLOW"]}\nEnemy HP -1{COLOUR_END}")
+                    print(f"\nYou attempt a counter attack and hit the enemy first {BOLD["YELLOW"]}\nEnemy HP -"
+                          f"1{COLOUR_END}")
                     sleep(0.5)
                     if enemy["Current HP"] == 1:
-                        print(f"{BOLD["PURPLE"]}\n*Enemy explodes in defeat!*{COLOUR_END}")
-                        sleep(1)
+                        print(f"══════════════════════════════")
+                        print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
+                        sleep(0.5)
                         apply_reward(character, enemy)
+                        print(f"══════════════════════════════\n")
                         break
                     else: enemy["Current HP"] -= 1
                 else:

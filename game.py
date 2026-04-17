@@ -206,7 +206,7 @@ def check_for_foes(character: dict[str, str | int]) -> bool:
     :postcondition: randomly select a number in the range [1,4] inclusive
     :return: True if number rolled is 4 otherwise False
     """
-    foe_check = random.randint(1,3)
+    foe_check = random.randint(1,4)
     if foe_check == 3 or (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14):
         return True
     else:

@@ -4,7 +4,6 @@ import ascii_art
 from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 
 
-
 def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     """
     Create the grid containing the game's accessible points and environment information.
@@ -29,7 +28,8 @@ def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
         print(f"Column value must be greater than 0, '{columns}' is not greater than 0.")
         raise ValueError
 
-    board = {(row, column): ENV_DESCRIPTIONS[random.randint(0,5)] for column in range(columns) for row in range(rows)}
+    board = {(row, column): ENV_DESCRIPTIONS[random.randint(0,5)] for column in range(columns) for row in
+             range(rows)}
 
     return board
 
@@ -334,7 +334,7 @@ def decide_enemy(character:dict[str, str | int]):
     dangerous = character["X-coordinate"] * character["Y-coordinate"]
     meet_hard = dangerous / 300
     meet_medium = progress / 30
-    if (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14):
+    if (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14) and character["Rank"] >= 3:
         return ENEMIES[10]
     if random.random() < meet_hard:
         return ENEMIES[random.randint(7,9)]

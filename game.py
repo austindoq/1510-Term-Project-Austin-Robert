@@ -278,7 +278,7 @@ def begin_narration(story_chapter: int) -> None:
                 print(f"{STORY["UL_IT_GREEN"]}{line}{COLOUR_END}")
                 time.sleep(2)
             file_object.close()
-            print(f"{ascii_art.ascii_end}")
+            print(f"{ascii_art.ascii_end[0]}")
 
 
 def apply_reward(character: dict[str, str | int], enemy: dict[str, str | int]) -> None:

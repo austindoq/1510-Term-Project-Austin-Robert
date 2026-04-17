@@ -1,4 +1,3 @@
-import random
 
 BOLD = {
     "BLACK" : f"\033[1;90m",
@@ -124,7 +123,6 @@ ENEMIES = [
     }
 
 ]
-
 
 ENV_DESCRIPTIONS = [
         f"{BOLD["GREEN"]}The dense jungle opens up a little, you can see sun rays trickle in from above.{COLOUR_END}",

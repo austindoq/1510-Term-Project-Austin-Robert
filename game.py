@@ -204,7 +204,7 @@ def check_for_foes(character: dict[str, str | int]) -> bool:
     Check for a %25 chance of an enemy encounter.
 
     :postcondition: randomly select a number in the range [1,4] inclusive
-    :return: True if number rolled is 4 otherwise False
+    :return: True if number rolled is 3 otherwise False
     """
     foe_check = random.randint(1,4)
     if foe_check == 3 or (character["X-coordinate"], character["Y-coordinate"]) == (14 ,14):
@@ -378,7 +378,7 @@ def guessing_game(character:dict[str, str | int]):
     sleep(0.5)
     print(f"It is {enemy["Name"]}!")
     sleep(0.5)
-    print(f"{BOLD["RED"]}Try to defend or counter the enemy's attack'{COLOUR_END}")
+    print(f"{BOLD["RED"]}Try to defend or counter the enemy's attack{COLOUR_END}")
     sleep(1)
     while character["Current HP"] > 0:
         sleep(1)
@@ -388,7 +388,7 @@ def guessing_game(character:dict[str, str | int]):
         try:
             player_choice = int(player_choice)
         except ValueError:
-            print(f"You must enter a number! '{player_choice}' is not an integer. Try again.")
+            print(f"You must enter an integer! '{player_choice}' is not an integer. Try again.")
         else:
             sleep(1)
             print(f"\nThe enemy makes a move!")

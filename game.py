@@ -304,9 +304,9 @@ def apply_reward(character: dict[str, str | int], enemy: dict[str, str | int]) -
     Apply gained XP and HP from winning a battle to the player and award level up buffs if certain conditions are met.
 
     :param character: a dictionary containing character information
-    :param enemy:
+    :param enemy: a dictionary containing enemy stats
     :precondition: character must be a dictionary containing the character's information
-    :preconditoin:
+    :precondition: enemy must be a dictionary containing enemy stats
     :postcondition: the correct enemy dropped XP reward is applied to the character
     """
     character["XP"] += enemy["XP Dropped"]
@@ -435,10 +435,10 @@ def game():
     columns = 15
     board = make_board(rows, columns)
     begin_narration(0)
-
     character = make_character()
     describe_current_location(board, character, rows, columns)
     achieved_goal = False
+
     while not achieved_goal and character["Current HP"] > 0:
         direction = get_user_choice()
         valid_move = validate_move(board, character, direction)

@@ -13,7 +13,7 @@ austindoq
 |   | ---                                                 | ---                                                     |   |
 |   | `main()` function in `game.py`                      | `game.py` line 458                                      |   |
 |   | Game executable from command line via `main()`      | `game.py` line 462                                      |   |
-|   | Whimsical, descriptive, engaging scenario           | `storyline/start.txt`                                   |   |
+|   | Whimsical, descriptive, engaging scenario           | `storyline/start.txt`, `storyline/end.txt`              |   |
 |   | 15x15 grid-based environment                        | `game.py` line 32                                       |   |
 |   | Character with name, HP, rank/level, and attributes | `game.py` line 47-56                                    |   |
 |   | Character movement in four cardinal directions      | `game.py` line 184-191                                  |   |
@@ -32,15 +32,15 @@ austindoq
 |   | Exception handling                                  | `game.py` line 273- 276                                 |   |
 |   | Decomposition into small atomic functions           | `game.py` lines 8-460                                   |   |
 |   | Dictionary comprehension                            | `game.py` line 32-33                                    |   |
-|   | `if`-statements                                     | `game.py` line 143-150                                  |   |
-|   | `for`-loop and `while`-loop                         | `game.py` line 67, 283, 432                             |   |
-|   | Membership operator                                 | `game.py` line 96, 322                                  |   |
-|   | `range()` function                                  | `game.py` line 33, 67                                   |   |
-|   | `itertools` usage                                   | `constants.py`                                          |   |
-|   | `random` module                                     | `game.py` line 33, 172, 263                             |   |
-|   | Function annotations                                | Every function in `game.py`                             |   |
-|   | Doctests                                            | line 126, 168, 240                                      |   |
+|   | if-statements                                       | `game.py` line 143-150                                  |   |
+|   | for loop and while loop                             | `game.py` lines  78-81, 376-420                         |   |
+|   | Membership operator                                 | `game.py` line 78                                       |   |
+|   | `range()` function                                  | `game.py` line 32                                       |   |
+|   | `itertools` usage                                   | `game.py` line 115-150                                  |   |
+|   | `random` module                                     | `game.py` line 390                                      |   |
+|   | Function annotations                                | `game.py` line 8-360                                    |   |
+|   | Doctests                                            | `game.py` line 127, 169, 241                            |   |
 |   | Unit tests                                          | `test_begin_narration.py`, `test_print_battle_stats.py` |   |
-|   | All output formatted with f-strings                 | Throughout `game.py`                                    |   |
-|   | No global variables                                 | Throughout `game.py`                                    |   |
-|   | No single letter variable names                     | Throughout `game.py`                                    |   |
+|   | All output formatted with f-strings                 | Throughout game.py                                      |   |
+|   | No global variables                                 | Throughout game.py                                      |   |
+|   | No single letter variable names                     | Throughout game.py                                      |   |

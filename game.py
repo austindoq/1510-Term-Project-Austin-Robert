@@ -4,7 +4,6 @@ import ascii_art
 from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 
 
-
 def make_board(rows: int, columns: int) -> dict[tuple[int, int], str]:
     """
     Create the grid containing the game's accessible points and environment information.

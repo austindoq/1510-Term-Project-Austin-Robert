@@ -1,4 +1,6 @@
 import random, time
+from time import sleep
+
 from constants import BOLD, COLOUR_END, STORY, ENEMIES, ENV_DESCRIPTIONS, UNDERLINE
 import ascii_art
 
@@ -359,7 +361,7 @@ def check_if_level_up(character: dict[str, str | int]) -> None:
     """
     if character["XP"] > 5 and character["Rank"] == 1:
         character["Rank"] += 1
-        character["Current HP"] += 10
+        character["Current HP"] += 5
         character["Rank Title"] = "Cabo"
         print(f"\n{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
         }{character["Rank Title"]}{COLOUR_END}")
@@ -367,6 +369,13 @@ def check_if_level_up(character: dict[str, str | int]) -> None:
     elif character["XP"] > 15 and character["Rank"] == 2:
         character["Rank"] += 1
         character["Current HP"] += 10
+        character["Rank Title"] = "Brigada"
+        print(f"\n{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
+        }{character["Rank Title"]}{COLOUR_END}")
+        print(f"{BOLD["GREEN"]}+10 HP{COLOUR_END}")
+    elif character["XP"] > 30 and character["Rank"] == 3:
+        character["Rank"] += 1
+        character["Current HP"] += 15
         character["Rank Title"] = "Capitán"
         print(f"\n{BOLD["BLUE"]}{character["Name"]}{COLOUR_END} has levelled up to {BOLD["BLUE"]
         }{character["Rank Title"]}{COLOUR_END}")
@@ -397,13 +406,16 @@ def guessing_game(character:dict[str, str | int]):
     :postcondition: user will engage in a riveting integer guessing game
     """
     enemy = decide_enemy(character).copy()
-
+    sleep(0.5)
     print(f"{BOLD["YELLOW"]}LOOK! An enemy has decided to challenge you!{COLOUR_END}")
+    sleep(0.5)
     print(f"It is {enemy["Name"]}!")
+    sleep(0.5)
     print(f"{BOLD["RED"]}Enemy: 'Muahaha, looks like you've sauntered right into my trap! The only way to "
           f"escape now is to do the impossible! Try defend or counter my attack'{COLOUR_END}")
-
+    sleep(1)
     while character["Current HP"] > 0:
+        sleep(1)
         print_battle_stats(character, enemy)
 
         player_choice = input(f"Enemy is trying to attack you!:\n(1) to defense this attack\n(2) to counterattack ")
@@ -412,29 +424,37 @@ def guessing_game(character:dict[str, str | int]):
         except ValueError:
             print(f"You must enter a number! '{player_choice}' is not an integer. Try again.")
         else:
+            sleep(1)
+            print(f"\nEnemy's attack head towards you.")
+            sleep(1)
             if player_choice == 2:
-                print(f"You make a counter attack and hit the enemy in the first place")
-                if enemy["Current HP"] == 1:
-                    print(f"{BOLD["PURPLE"]}*Enemy explodes in defeat!*{COLOUR_END}")
-                    apply_reward(character, enemy)
-                    break
-                else: enemy["Current HP"] -= 1
+                if random.random() < 0.4 + 0.1 * character["Rank"]:
+                    print(f"\nYou make a counter attack and hit the enemy in the first place. {BOLD["YELLOW"]}\nEnemy HP -1{COLOUR_END}")
+                    sleep(0.5)
+                    if enemy["Current HP"] == 1:
+                        print(f"{BOLD["PURPLE"]}\n*Enemy explodes in defeat!*{COLOUR_END}")
+                        sleep(1)
+                        apply_reward(character, enemy)
+                        break
+                    else: enemy["Current HP"] -= 1
+                else:
+                    print(f"\nUnfortunately you miss the enemy")
+                    sleep(1)
             if random.random() < enemy["Hit chance"]:
-                print(f"Enemy's attack head towards you.")
                 if player_choice == 1:
-                    if random.random() < 0.3*character["Rank"]:
-                        print(f"You successfully defended against the attack.")
+                    if random.random() < 0.4 + 0.15 * character["Rank"]:
+                        print(f"\nYou successfully defended against the attack.")
                     else:
-                        print(f"Enemy break through your defense.")
+                        print(f"\nEnemy break through your defense. {BOLD["RED"]}HP -1{COLOUR_END}")
                         character["Current HP"] -= 1
                 else:
-                    print(f"You get hit from the expected damage.")
+                    print(f"\nEnemy hit you as expected" if player_choice == 2 else f"\nYou take the wrong move.")
+                    print(f"{BOLD["RED"]}HP -1{COLOUR_END}")
                     character["Current HP"] -= 1
             else:
-                print("Enemy's attack miss you.")
-
-        enemy["Hit chance"] *= 0.95 if enemy["stamina"] > 0 else 0.8
-        enemy["stamina"] -= 1
+                print("\nEnemy's attack miss you.")
+            enemy["Hit chance"] *= 0.95 if enemy["stamina"] > 0 else 0.8
+            enemy["stamina"] -= 1
 
 
     return character

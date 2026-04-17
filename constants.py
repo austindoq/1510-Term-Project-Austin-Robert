@@ -118,8 +118,8 @@ ENEMIES = [
     {
         "Current HP": 20,
         "XP Dropped": 100,
-        "Hit chance": 1.2,
-        "stamina": 10,
+        "Hit chance": 2.0,
+        "stamina": 15,
         "Name": f"{UNDERLINE['RED']}Amazon Spirit Guardian{COLOUR_END}"
     }
 
